@@ -11,13 +11,28 @@ import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.List;
 
-public class MenuGUI
+public class MenuGUIMulti
 {
     final private int invSize = 27;
 
-    public MenuGUI(Player target)
+    final public Inventory p1 = Bukkit.createInventory(null, invSize, "Player Menu");
+    final public Inventory p2 = Bukkit.createInventory(null, invSize, "Gamemodes");
+
+    public MenuGUIMulti(Player target)
     {
-        Inventory inventory = Bukkit.createInventory(null, invSize, "Player Menu");
+        //Back item
+        ItemStack backItem = new ItemStack(Material.REPEATER, 1);
+        ItemMeta backItemMeta = backItem.getItemMeta();
+        backItemMeta.setDisplayName(ChatColor.YELLOW + "Previous page");
+        backItemMeta.setEnchantmentGlintOverride(true);
+        backItem.setItemMeta(backItemMeta);
+
+        //Forward item
+        ItemStack forwardItem = new ItemStack(Material.COMPARATOR, 1);
+        ItemMeta forwardItemMeta = forwardItem.getItemMeta();
+        forwardItemMeta.setDisplayName(ChatColor.YELLOW + "Next page");
+        forwardItemMeta.setEnchantmentGlintOverride(true);
+        forwardItem.setItemMeta(forwardItemMeta);
 
         //Heal item
         ItemStack healItem = new ItemStack(Material.GREEN_WOOL, 1);
@@ -59,22 +74,67 @@ public class MenuGUI
         fillerItemMeta.setItemName(ChatColor.RESET + " ");
         fillerItem.setItemMeta(fillerItemMeta);
 
-        inventory.setItem(4, headItem);
-        inventory.setItem(12, healItem);
-        inventory.setItem(14, giveItem);
-        inventory.setItem(22, summonItem);
+        //Creative item
+        ItemStack creativeItem = new ItemStack(Material.COMMAND_BLOCK, 1);
+        ItemMeta creativeItemMeta = creativeItem.getItemMeta();
+        creativeItemMeta.setDisplayName(ChatColor.LIGHT_PURPLE + "Creative Mode");
+        creativeItemMeta.setLore(List.of(ChatColor.GOLD + "Change gamemode to creative"));
+        creativeItemMeta.setEnchantmentGlintOverride(true);
+        creativeItem.setItemMeta(creativeItemMeta);
+
+        //Survival item
+        ItemStack survivalItem = new ItemStack(Material.IRON_AXE, 1);
+        ItemMeta survivalItemMeta = survivalItem.getItemMeta();
+        survivalItemMeta.setDisplayName(ChatColor.YELLOW + "Survival Mode");
+        survivalItemMeta.setLore(List.of(ChatColor.GOLD + "Change gamemode to survival"));
+        survivalItemMeta.setEnchantmentGlintOverride(true);
+        survivalItem.setItemMeta(survivalItemMeta);
+
+        //Adventure item
+        ItemStack adventureItem = new ItemStack(Material.WRITABLE_BOOK, 1);
+        ItemMeta adventureItemMeta = adventureItem.getItemMeta();
+        adventureItemMeta.setDisplayName(ChatColor.RED + "Adventure Mode");
+        adventureItemMeta.setLore(List.of(ChatColor.GOLD + "Change gamemode to adventure"));
+        adventureItemMeta.setEnchantmentGlintOverride(true);
+        adventureItem.setItemMeta(adventureItemMeta);
+
+        //Spectator item
+        ItemStack spectatorItem = new ItemStack(Material.SPYGLASS, 1);
+        ItemMeta spectatorItemMeta = spectatorItem.getItemMeta();
+        spectatorItemMeta.setDisplayName(ChatColor.AQUA + "Spectator Mode");
+        spectatorItemMeta.setLore(List.of(ChatColor.GOLD + "Change gamemode to spectator"));
+        spectatorItemMeta.setEnchantmentGlintOverride(true);
+        spectatorItem.setItemMeta(spectatorItemMeta);
+
+        p1.setItem(4, headItem);
+        p1.setItem(12, healItem);
+        p1.setItem(14, giveItem);
+        p1.setItem(17, forwardItem);
+        p1.setItem(22, summonItem);
+
+        p2.setItem(4, creativeItem);
+        p2.setItem(9, backItem);
+        p2.setItem(12, survivalItem);
+        p2.setItem(14, adventureItem);
+        p2.setItem(22, spectatorItem);
 
         for (int slot = 0; slot < invSize; slot++)
         {
-            ItemStack invItem = inventory.getItem(slot);
+            ItemStack invItemP1 = p1.getItem(slot);
+            ItemStack invItemP2 = p2.getItem(slot);
 
-            if (invItem == null || invItem.getType() == Material.AIR)
+            if (invItemP1 == null || invItemP1.getType() == Material.AIR)
             {
-                inventory.setItem(slot, fillerItem);
+                p1.setItem(slot, fillerItem);
+            }
+
+            if (invItemP2 == null || invItemP2.getType() == Material.AIR)
+            {
+                p2.setItem(slot, fillerItem);
             }
         }
 
-        target.openInventory(inventory);
+        //target.openInventory(p1);
     }
 
 

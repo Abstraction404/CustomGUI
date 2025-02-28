@@ -2,3 +2,8 @@ name: CustomGUI
 version: '1.0-SNAPSHOT'
 main: plugin.testing.customGUI.CustomGUI
 api-version: '1.21'
+
+commands:
+    customgui:
+        description: Opens the custom GUI of your player
+        usage: /customgui <playername>
